@@ -14,6 +14,11 @@ public class Battle {
 	private short teamCrown;
 	private short opponentCrowns;
 	
+	private List<Player> team;
+	private List<Player> opponent;
+	
+	private Arena arena;
+	
 	public String getType() {
 		return type;
 	}
@@ -109,9 +114,39 @@ public class Battle {
 	public void setArena(Arena arena) {
 		this.arena = arena;
 	}
-
-	private List<Player> team;
-	private List<Player> opponent;
 	
-	private Arena arena;
+	public String toCsv(String sep, String type) {
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append(type +sep);
+		
+		
+		// winner
+		strBuilder.append("" + getWinnerId() + sep);
+		
+		// time
+		strBuilder.append("" + utcTime + sep);
+		
+		// P1 
+		strBuilder.append(getTeam().get(0).toCsv(sep));
+		
+		// P2
+		strBuilder.append(getOpponent().get(0).toCsv(sep));
+		
+		
+		return strBuilder.toString();
+	}
+	
+	// 0 : draw, 1 : P1, 2  : P2
+	private int getWinnerId() {
+		if ( teamCrown == opponentCrowns ) {
+			return 0;
+		}
+		if ( teamCrown > opponentCrowns ) {
+			return 1;
+		}
+		return 2;
+		
+	}
+
+
 }

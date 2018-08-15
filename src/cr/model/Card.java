@@ -1,7 +1,11 @@
 package cr.model;
 
 public class Card {
-	private String name;
+	//private String name;
+	private CardEnum cardEnum;
+	
+	private String key;
+	
 	private int level;
 	private int maxLevel;
 	private int count;
@@ -9,16 +13,15 @@ public class Card {
 	//private int requiredForUpgrade;
 	private int leftToUpgrade;
 	private String icon;
-	private String key;
 	private String type;
 	private int arena;
 	private String description;
 	private long id;
-	public String getName() {
-		return name;
+	public CardEnum getCardEnum() {
+		return cardEnum;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setCardEnum(CardEnum cardEnum) {
+		this.cardEnum = cardEnum;
 	}
 	public int getLevel() {
 		return level;
@@ -67,6 +70,8 @@ public class Card {
 	}
 	public void setKey(String key) {
 		this.key = key;
+		
+		this.cardEnum = CardEnum.fromKey(key);
 	}
 	public String getType() {
 		return type;

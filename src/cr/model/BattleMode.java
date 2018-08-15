@@ -1,16 +1,16 @@
 package cr.model;
 
 public class BattleMode {
-	private String name;
+	private GameMode name;
 	private String deck;
 	private String cardLevels;
 	private int overtimeSeconds;
 	private String players;
 	private boolean sameDeck;
-	public String getName() {
+	public GameMode getName() {
 		return name;
 	}
-	public void setName(String name) {
+	public void setName(GameMode name) {
 		this.name = name;
 	}
 	public String getDeck() {

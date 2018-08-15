@@ -123,7 +123,7 @@ public class Query <T> {
 		try {
 			URL url = new URL(strUrl);
 			
-			System.out.println("Executing:" + strUrl);
+			//System.out.println("Executing:" + strUrl);
 			
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
@@ -165,13 +165,13 @@ public class Query <T> {
 	
 			String output;
 			StringBuffer outputBuffer = new StringBuffer();
-			System.out.println("Output from Server .... \n");
+			//System.out.println("Output from Server .... \n");
 			while ((output = br.readLine()) != null) {
 				outputBuffer.append(output);
 			}
 	
 			conn.disconnect();
-			System.out.println(outputBuffer);
+			//System.out.println(outputBuffer);
 			
 			String headerRateLimit = conn.getHeaderField(HEADER_X_RATE_LIMIT);
 			String headerRateLimitRemaining = conn.getHeaderField(HEADER_X_RATE_LIMIT_REMAINING);
