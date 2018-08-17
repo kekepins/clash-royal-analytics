@@ -38,3 +38,16 @@ or get Player Battles
 		battleVisitor.startVisit(10 * 1000); /*x * 1mn*/
 		battleVisitor.end();
 	}
+```
+
+Battle are initialized from top ladder players
+
+```java
+	
+		Player[] players = 
+				QueryBuilder
+					.selectTopPlayers(Country.FR)
+					.execute();
+```
+
+Then getting player last matches, and keeping opponents to get other results.
