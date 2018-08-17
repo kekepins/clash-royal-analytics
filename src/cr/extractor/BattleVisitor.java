@@ -25,13 +25,15 @@ import cr.service.QueryBuilder;
  */
 public class BattleVisitor {
 	
-	private final static String BASE_FILE = "d:\\temp\\cr_data_";
+	private final static String BASE_FILE = "c:\\temp\\cr_data_";
+	private static final int BATTLE_PLAYER_COUNT = 4; 
 	
 	private LinkedList<PlayerId> waitingPlayers = new LinkedList<>();
 	private Map<String, PlayerId> donePlayers = new HashMap<>(); 
 	
-	//private FileWriter fileWriter;
 	private BufferedWriter bw;
+	
+	private boolean headerWritten = false;
 	
 	public void init() throws CrServiceException {
 		
@@ -65,12 +67,11 @@ public class BattleVisitor {
 	public void startVisit(long visitTime) {
 		long start = System.currentTimeMillis();
 		long currentWork = 0;
-		
 		while (currentWork < visitTime ) {
-			
 
 			// Get some new battles 4 player by 4 player (100 battles)
-			Battle[] battles = getNewBattles(4);
+			Battle[] battles = getNewBattles(BATTLE_PLAYER_COUNT);
+			
 			saveBattles(battles);
 			
 			currentWork = (System.currentTimeMillis()-start);
@@ -131,12 +132,19 @@ public class BattleVisitor {
 			if ( mode == GameMode.Ladder ||  mode == GameMode.Challenge ) {
 				type = mode.name();
 			}
-			else if ( mode == GameMode.Showdown_Ladder && "clanWarWarDay".equals(battle.getType())) {
+			/*else if ( mode == GameMode.Showdown_Ladder && "clanWarWarDay".equals(battle.getType())) {
 				type = "clanWarWarDay";
-			}
+			}*/
 			
 			if (type != null ) {
 				try {
+					
+					if ( !headerWritten) {
+						bw.write(battle.toCsvHeader("^"));
+						bw.newLine();
+						headerWritten = true;
+					}
+					
 					bw.write(battle.toCsv("^", type));
 					bw.newLine();
 				} catch (IOException e) {
@@ -175,7 +183,7 @@ public class BattleVisitor {
 		
 		BattleVisitor battleVisitor = new BattleVisitor();
 		battleVisitor.init();
-		battleVisitor.startVisit(30 * 1000); /*1mn*/
+		battleVisitor.startVisit(10 * 1000); /*x * 1mn*/
 		battleVisitor.end();
 	}
 

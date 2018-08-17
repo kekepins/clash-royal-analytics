@@ -136,6 +136,23 @@ public class Battle {
 		return strBuilder.toString();
 	}
 	
+	public String toCsvHeader(String sep) {
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append("type" + sep);
+		strBuilder.append("winner" + sep);
+		strBuilder.append("utctime" + sep);
+		
+		// P1 
+		strBuilder.append(getTeam().get(0).toCsvHeader(sep, "_P1"));
+		
+		// P2
+		strBuilder.append(getOpponent().get(0).toCsvHeader(sep, "_P2"));
+
+		
+		return strBuilder.toString();
+		
+	}
+	
 	// 0 : draw, 1 : P1, 2  : P2
 	private int getWinnerId() {
 		if ( teamCrown == opponentCrowns ) {

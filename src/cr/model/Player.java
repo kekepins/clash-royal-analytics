@@ -95,14 +95,14 @@ public class Player {
 		StringBuilder strBuilder = new StringBuilder();
 		
 		// name
-		strBuilder.append(this.name.replaceAll(sep, "_") + sep);
+		strBuilder.append(this.name.replace(sep, "") + sep);
 		
 		// tag
 		strBuilder.append(this.tag + sep);
 		
 		// clan name
 		if ( clan !=null && clan.getName() != null ) {
-			strBuilder.append(clan.getName().replaceAll(sep, "_") + sep);
+			strBuilder.append(clan.getName().replace(sep, "") + sep);
 		}
 		else {
 			strBuilder.append( sep);
@@ -117,6 +117,18 @@ public class Player {
 		// deck
 		strBuilder.append(CsvUtils.deckToCsv(this.currentDeck, sep) );
 		
+		return strBuilder.toString();
+	}
+
+	public Object toCsvHeader(String sep, String id) {
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append("name" + id + sep);
+		strBuilder.append("tag" + id + sep);
+		strBuilder.append("clan" + id + sep);
+		strBuilder.append("startTrophies" + id + sep);
+		strBuilder.append("crownsEarned" + id + sep);
+		strBuilder.append(CsvUtils.deckToCsvHeader(id, sep));
+
 		return strBuilder.toString();
 	}
 
