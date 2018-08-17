@@ -1,9 +1,8 @@
 # clash-royal-analytics
 ## first step construct dataset with the help of cr-api (https://github.com/RoyaleAPI)
 
-Work in progress
+### construct utility classes to access REST cr-api:
 
-At the moment I write some utility classes to access the REST api and download datas:
 
 Example:
 Get top player FR
@@ -25,3 +24,17 @@ or get Player Battles
 					.execute();
 
 ```
+
+ ### then iterate threw battles to generate a csv file:
+ 
+ ```java
+ 
+ 	public static void main(String args[]) throws CrServiceException {
+		
+		ConfigManager.init();
+		
+		BattleVisitor battleVisitor = new BattleVisitor();
+		battleVisitor.init();
+		battleVisitor.startVisit(10 * 1000); /*x * 1mn*/
+		battleVisitor.end();
+	}
