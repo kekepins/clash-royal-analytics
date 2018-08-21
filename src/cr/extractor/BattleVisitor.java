@@ -25,7 +25,7 @@ import cr.service.QueryBuilder;
  */
 public class BattleVisitor {
 	
-	private final static String BASE_FILE = "c:\\temp\\cr_data_";
+	private final static String BASE_FILE = "d:\\temp\\cr_data_";
 	private static final int BATTLE_PLAYER_COUNT = 4; 
 	
 	private LinkedList<PlayerId> waitingPlayers = new LinkedList<>();
@@ -46,7 +46,9 @@ public class BattleVisitor {
 		}
 		Player[] players = 
 				QueryBuilder
-					.selectTopPlayers(Country.FR)
+					.selectTopPlayers(null)
+					//.selectTopPlayers(Country.FR)
+					//.selectTopPlayers(Country._INT)
 					.execute();
 		
 		for ( Player player : players ) {
@@ -101,9 +103,9 @@ public class BattleVisitor {
 		
 		
 		// add player to done
-		for ( PlayerId player : players) {
+		/*for ( PlayerId player : players) {
 			donePlayers.put(player.getTag(), player);
-		}
+		}*/
 		
 		try {
 			Battle[] battles = QueryBuilder.selectPlayerBattles(playerStr ).execute();
@@ -162,8 +164,10 @@ public class BattleVisitor {
 			List<Player> players = battle.getOpponent();
 			
 			for ( Player player : players) {
-				if (!donePlayers.containsKey(player.getTag())) {
-					waitingPlayers.add(new PlayerId(player.getTag(), player.getName()));
+				if (!donePlayers.containsKey(player.getTag()) ) {
+					PlayerId playerId = new PlayerId(player.getTag(), player.getName());
+					waitingPlayers.add(playerId);
+					donePlayers.put(player.getTag(), playerId);
 				}
 			}
 			
@@ -183,7 +187,7 @@ public class BattleVisitor {
 		
 		BattleVisitor battleVisitor = new BattleVisitor();
 		battleVisitor.init();
-		battleVisitor.startVisit(10 * 1000); /*x * 1mn*/
+		battleVisitor.startVisit(5 * 60 * 1000); /*x * 1mn*/
 		battleVisitor.end();
 	}
 

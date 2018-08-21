@@ -81,7 +81,13 @@ public class Query <T> {
 
 	
 	protected String getUrl() {
-		String resUrl =  String.format(this.url, (Object[]) params);
+		String resUrl = null;
+		if ( params != null ) {
+			resUrl =  String.format(this.url, (Object[]) params);
+		}
+		else {
+			resUrl = this.url;
+		}
 		
 		if ( !queryParams.isEmpty() ) {
 			resUrl += "?";
@@ -130,6 +136,18 @@ public class Query <T> {
 			conn.setRequestProperty("Accept", "application/json");
 			String key= Config.getConfig().getApiKey();
 			conn.setRequestProperty("auth", key);
+			
+			if (conn.getResponseCode() != 200) {
+				System.out.println("Error with query [" + strUrl + "] code " + conn.getResponseCode() );
+				
+				System.out.println( HEADER_X_RATE_LIMIT  + ":" + conn.getHeaderField(HEADER_X_RATE_LIMIT) );
+				System.out.println( HEADER_X_RATE_LIMIT_REMAINING + ":" + conn.getHeaderField(HEADER_X_RATE_LIMIT_REMAINING) );
+				System.out.println( HEADER_X_RATE_LIMIT_RETRY_AFTER + ":" + conn.getHeaderField(HEADER_X_RATE_LIMIT_RETRY_AFTER));
+		
+			}
+			else {
+				System.out.println("Query OK [" + strUrl + "] " );
+			}
 	
 			if (conn.getResponseCode() == 400) {
 				throw new CrServiceException("Bad Request -- Your request sucks. (" + strUrl + ")");
@@ -144,11 +162,11 @@ public class Query <T> {
 			}
 
 			if (conn.getResponseCode() == 500) {
-				throw new CrServiceException("Internal Server Error -- We had a problem with our server. Try again later.");
+				throw new CrServiceException("Internal Server Error -- We had a problem with our server. Try again later.["  + url + "]");
 			}
 			
 			if (conn.getResponseCode() == 503) {
-				throw new CrServiceException("Service Unavailable -- We're temporarily offline for maintenance. Please try again later.");
+				throw new CrServiceException("Service Unavailable -- We're temporarily offline for maintenance. Please try again later0. ["  + url + "]");
 			}
 			
 			if (conn.getResponseCode() == 522) {

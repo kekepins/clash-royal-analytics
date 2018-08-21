@@ -6,6 +6,7 @@ public enum Country {
 	_NA("North America", false),
 	_AS("Asia", false),
 	_AF("Africa", false),
+	_INT("International", false),
 	DE("Germany", true),
 	FR("France", true),
 	KR("South Korea", true),
