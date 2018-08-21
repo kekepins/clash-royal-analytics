@@ -93,7 +93,7 @@ public class BattleVisitor {
 		
 		// FIXME list  check size
 		for ( int idx = 0; idx < playerCount; idx++) {
-			PlayerId playerId = waitingPlayers.getLast();
+			PlayerId playerId = waitingPlayers.removeLast();
 			players.add(playerId);
 			if ( idx != 0 ) {
 				playerStr += ",";
