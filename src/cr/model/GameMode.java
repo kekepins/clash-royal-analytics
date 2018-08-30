@@ -81,6 +81,7 @@ public enum GameMode {
 	Event_NewArena10,
 	Event_NewArena11,
 	Rage_Tournament,
-	PopularDecks_Friendly;
+	PopularDecks_Friendly,
+	BlindDeck;
 	
 }

@@ -19,6 +19,8 @@ public class QueryBuilder {
 	private final static String TOP_PLAYERS_URI = "top/players/";
 	private final static String TOP_CLANS_URI = "top/clans/";
 	
+	private final static String VERSION_URI = "version/";
+	
 	
 	public static Query<Player> selectPlayer(String playerId) {
 		Query<Player> query = new Query<Player>(API_BASE +  PLAYER_URI + "%s", Player.class); 
@@ -74,6 +76,13 @@ public class QueryBuilder {
 		Query<Battle[]> query = new Query<Battle[]>( API_BASE +  PLAYER_URI + "%s" + BATTLE_URI, Battle[].class);
 		
 		query = query.withParam(playerId);
+		return query;
+	}
+	
+	public static Query<String> getVersion() {
+		
+		Query<String> query = new Query<String>( API_BASE +  VERSION_URI, String.class);
+		query = query.withResponseNotJson();
 		return query;
 	}
 	

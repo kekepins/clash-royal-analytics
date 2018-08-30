@@ -32,6 +32,7 @@ public class Query <T> {
 	private final ObjectMapper objectMapper;
 	private Class<T> type;
 	private boolean isArray = false;
+	private boolean isJsonResponse = true;
 	
 	public Query(String url,  Class<T> type) {
 		
@@ -48,6 +49,11 @@ public class Query <T> {
 
 	protected Query<T> withParam(String param) {
 		params = new String[] {param};
+		return this;
+	}
+	
+	protected Query<T> withResponseNotJson() {
+		this.isJsonResponse = false;
 		return this;
 	}
 	
@@ -112,8 +118,11 @@ public class Query <T> {
 		
 		String url = getUrl();
 		QueryResponse response = executeGetQuery(url);
-		try {
-			return  objectMapper.readValue(response.getJson(), type);
+		try { 
+			if ( isJsonResponse ) {
+				return  objectMapper.readValue(response.getJson(), type);
+			}
+			return (T) response.getJson();
 		} catch (IOException e) {
 			throw new CrServiceException("Deserialisation Pbm ", e );
 		}
@@ -174,7 +183,7 @@ public class Query <T> {
 			}
 			
 			if (conn.getResponseCode() != 200) {
-				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+				throw new CrServiceException("Error code not 200 : HTTP error code : " + conn.getResponseCode());
 			}
 			
 			
