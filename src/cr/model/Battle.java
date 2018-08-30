@@ -11,7 +11,7 @@ public class Battle {
 	private String deckType;
 	private String teamSize;
 	private int winner;
-	private short teamCrown;
+	private short teamCrowns;
 	private short opponentCrowns;
 	
 	private List<Player> team;
@@ -75,12 +75,12 @@ public class Battle {
 		this.winner = winner;
 	}
 
-	public short getTeamCrown() {
-		return teamCrown;
+	public short getTeamCrowns() {
+		return teamCrowns;
 	}
 
-	public void setTeamCrown(short teamCrown) {
-		this.teamCrown = teamCrown;
+	public void setTeamCrowns(short teamCrowns) {
+		this.teamCrowns = teamCrowns;
 	}
 
 	public short getOpponentCrowns() {
@@ -155,10 +155,10 @@ public class Battle {
 	
 	// 0 : draw, 1 : P1, 2  : P2
 	private int getWinnerId() {
-		if ( teamCrown == opponentCrowns ) {
+		if ( teamCrowns == opponentCrowns ) {
 			return 0;
 		}
-		if ( teamCrown > opponentCrowns ) {
+		if ( teamCrowns > opponentCrowns ) {
 			return 1;
 		}
 		return 2;
