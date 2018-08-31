@@ -46,8 +46,8 @@ public class BattleVisitor {
 		}
 		Player[] players = 
 				QueryBuilder
-					.selectTopPlayers(null)
-					//.selectTopPlayers(Country.FR)
+					//.selectTopPlayers(null)
+					.selectTopPlayers(Country.FR)
 					//.selectTopPlayers(Country._INT)
 					.execute();
 		
@@ -114,7 +114,17 @@ public class BattleVisitor {
 		catch (CrServiceException e) {
 			
 			e.printStackTrace();
-			return null;
+			
+			// Error occurs in query
+			try {
+				System.out.println("Error sleep a little ...");
+				Thread.currentThread().sleep(5000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			return new Battle[] {};
 		}
 		
 	}
@@ -187,7 +197,7 @@ public class BattleVisitor {
 		
 		BattleVisitor battleVisitor = new BattleVisitor();
 		battleVisitor.init();
-		battleVisitor.startVisit(5 * 60 * 1000); /*x * 1mn*/
+		battleVisitor.startVisit(6 * 60 * 60 * 1000); /*x * 1mn*/
 		battleVisitor.end();
 	}
 

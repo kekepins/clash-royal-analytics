@@ -1,0 +1,29 @@
+{'players': 
+{'right': 
+{'deck':
+ [['Mega Minion', '9'],
+  ['Electro Wizard', '3'], 
+  ['Arrows', '11'], 
+  ['Lightning', '5'],
+  ['Tombstone', '9'], 
+  ['The Log', '2'], 
+  ['Giant', '9'], 
+  ['Bowler', '5']], 
+  'trophy': '4258', 
+  'clan': 'TwoFiveOne', 
+  'name': 'gpa raid'}, 
+  'left': 
+ {'deck': 
+ [['Fireball', '9'],
+  ['Archers', '12'], 
+  ['Goblins', '12'], 
+  ['Minions', '11'], 
+  ['Bomber', '12'], 
+  ['The Log', '2'], 
+  ['Barbarians', '12'], 
+  ['Royal Giant', '13']], 
+  'trophy': '4325', 
+  'clan': 'battusai', 
+  'name': 'Supr4'}}, 
+  'type': 'ladder', 
+  'result': ['2', '0'], 'time': '2017-07-12'}
