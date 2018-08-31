@@ -13,22 +13,24 @@ public class CsvUtils {
 		
 		Map<CardEnum, Card> cards = new HashMap<>();
 		
+		
 		for ( Card card : deckCards) {
 			cards.put(card.getCardEnum(), card);
 		}
 		
 		StringBuilder deckStr = new StringBuilder();
 		StringBuilder cardStrength = new StringBuilder();
+		StringBuilder humanDeckStr =  new StringBuilder();
 		BitSet cardBitset = new BitSet();
 		int idx = 0;
 		
 		for ( CardEnum card : CardEnum.values()) {
-			//System.out.println(card);
 			Card cardFound = cards.get(card);
 			if (cardFound != null) {
 				deckStr.append(1);
 				cardStrength.append(cardFound.getLevel() + sep);
 				cardBitset.set(idx, true);
+				humanDeckStr.append(cardFound.getCardEnum().name() + " ");
 			}
 			else {
 				deckStr.append(0);
@@ -37,14 +39,10 @@ public class CsvUtils {
 			deckStr.append(sep);
 			idx++;
 		}
-		/*System.out.println("DeckStr:" +  deckStr);
-		System.out.println("Deck hash:" +  deckStr.hashCode());
-		System.out.println("cardBitset:" +  bitset2bitstring(cardBitset, CardEnum.values().length));
-		System.out.println("cardBitset:" +  bytesToHex(cardBitset.toByteArray()));*/
-		
+	
 		
 		// deck id 
-		return bytesToHex(cardBitset.toByteArray()) + sep + deckStr.toString() + cardStrength.toString();
+		return bytesToHex(cardBitset.toByteArray()) + sep + humanDeckStr + sep + deckStr.toString() + cardStrength.toString();
 		
 		
 	}
@@ -79,6 +77,7 @@ public class CsvUtils {
 	public static String deckToCsvHeader(String id, String sep) {
 		StringBuilder str = new StringBuilder();
 		str.append("deckid" + id  + sep);
+		str.append("human_deck" + id  + sep);
 		for ( CardEnum card : CardEnum.values()) {
 			str.append(card.name() + id  + sep);
 		}
@@ -97,18 +96,6 @@ public class CsvUtils {
 	    }
 	    return result.toString();
 	}
-	 /*
-	 public static String toHexString(BitSet bitSet, int bitSetSize) {
-		 final int bytes = 1 + (bitSetSize / 8);
-		 final StringBuilder sb = new StringBuilder(bytes + 8);
-		 for (final long l : toLongArray(bitSet)) {
-			 sb.append(Long.toHexString(l));
-		 }
-		 
-		 sb.setLength(bytes);
-		 return sb.toString();
-	}*/
-	 
 
 
 	public static String bytesToHex(byte[] in) {
