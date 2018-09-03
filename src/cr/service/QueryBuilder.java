@@ -52,7 +52,6 @@ public class QueryBuilder {
 		
 		
 		String queryStr = API_BASE +  TOP_PLAYERS_URI + (country != null ? "%s" : "");
-		//Query<Player[]> query = new Query<Player[]>( API_BASE +  TOP_PLAYERS_URI + "%s", Player[].class); 
 		Query<Player[]> query = new Query<Player[]>( queryStr, Player[].class); 
 		
 		if ( country != null ) {

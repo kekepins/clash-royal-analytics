@@ -17,6 +17,6 @@ public class CardCount implements Comparable<CardCount> {
 
 	@Override
 	public int compareTo(CardCount otherCardCount) {
-		return Double.compare(this.count, otherCardCount.count);
+		return Double.compare(otherCardCount.count, this.count);
 	}
 }

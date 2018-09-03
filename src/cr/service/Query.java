@@ -136,6 +136,7 @@ public class Query <T> {
 	private QueryResponse executeGetQuery(String strUrl) throws CrServiceException {
 
 		try {
+			long start = System.currentTimeMillis();
 			URL url = new URL(strUrl);
 			
 			//System.out.println("Executing:" + strUrl);
@@ -148,14 +149,13 @@ public class Query <T> {
 			
 			if (conn.getResponseCode() != 200) {
 				System.out.println("Error with query [" + strUrl + "] code " + conn.getResponseCode() );
-				
 				System.out.println( HEADER_X_RATE_LIMIT  + ":" + conn.getHeaderField(HEADER_X_RATE_LIMIT) );
 				System.out.println( HEADER_X_RATE_LIMIT_REMAINING + ":" + conn.getHeaderField(HEADER_X_RATE_LIMIT_REMAINING) );
 				System.out.println( HEADER_X_RATE_LIMIT_RETRY_AFTER + ":" + conn.getHeaderField(HEADER_X_RATE_LIMIT_RETRY_AFTER));
 		
 			}
 			else {
-				System.out.println("Query OK [" + strUrl + "] " );
+				System.out.println("#" + Thread.currentThread().getId()  + ":Query OK [" + strUrl + "] in " +  (System.currentTimeMillis() - start) + " ms");
 			}
 	
 			if (conn.getResponseCode() == 400) {

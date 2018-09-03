@@ -8,6 +8,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import cr.extractor.model.PlayerId;
 import cr.model.Battle;
@@ -23,10 +28,11 @@ import cr.service.QueryBuilder;
  * Construct a battle dataset (only 1v1 ladder/ 
  *
  */
-public class BattleVisitor {
+public class BattleVisitorThread {
 	
 	private final static String BASE_FILE = "c:\\temp\\cr_data_";
 	private static final int BATTLE_PLAYER_COUNT = 4; 
+	private static final int THREAD_COUNT = 4;
 	
 	private LinkedList<PlayerId> waitingPlayers = new LinkedList<>();
 	private Map<String, PlayerId> donePlayers = new HashMap<>(); 
@@ -35,6 +41,11 @@ public class BattleVisitor {
 	
 	private boolean headerWritten = false;
 	
+	/**
+	 * Init list with some players (Top fr for example) 
+	 * 
+	 * @throws CrServiceException
+	 */
 	public void init() throws CrServiceException {
 		
 		try {
@@ -69,70 +80,63 @@ public class BattleVisitor {
 	public void startVisit(long visitTime) {
 		long start = System.currentTimeMillis();
 		long currentWork = 0;
+		ExecutorService executor = Executors.newFixedThreadPool( THREAD_COUNT );
+
 		while (currentWork < visitTime ) {
 
-			// Get some new battles 4 player by 4 player (100 battles)
-			Battle[] battles = getNewBattles(BATTLE_PLAYER_COUNT);
 			
-			saveBattles(battles);
+			// Create task list
+			List <Callable<Battle[]>> callableTasks = new ArrayList<Callable<Battle[]>>();
+			
+			for ( int i = 0; i < THREAD_COUNT; i++ ) {
+				callableTasks.add(new BattleResultTask(getNewBattlesId(BATTLE_PLAYER_COUNT)));
+			}
+			
+			// Start threads ...
+			
+			try {
+				 List<Future<Battle[]>> futures = executor.invokeAll(callableTasks);
+				 for (Future<Battle[]> future : futures) {
+					 Battle[] battles = future.get();
+					 saveBattles(battles);
+				 }
+
+			} 
+			catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
 			
 			currentWork = (System.currentTimeMillis()-start);
+			System.out.println("work for " + currentWork);
+			
 		}
 		
+		System.out.println("shutdown executor now " + currentWork);
+		executor.shutdown();
 	}
 	
-	/**
-	 * Get new battle from the api
-	 * @throws CrServiceException 
-	 */
-	private Battle[] getNewBattles(int playerCount){
-		
-		List<PlayerId> players = new ArrayList<>();
-		
+	
+	private synchronized String getNewBattlesId(int playerCount){
 		String playerStr = "";
+		//List<PlayerId> players = new ArrayList<>();
 		
-		// FIXME list  check size
 		for ( int idx = 0; idx < playerCount; idx++) {
 			PlayerId playerId = waitingPlayers.removeLast();
-			players.add(playerId);
+			//players.add(playerId);
 			if ( idx != 0 ) {
 				playerStr += ",";
 			}
 			playerStr +=  playerId.getTag();
 		}
 		
-		
-		// add player to done
-		/*for ( PlayerId player : players) {
-			donePlayers.put(player.getTag(), player);
-		}*/
-		
-		try {
-			Battle[] battles = QueryBuilder.selectPlayerBattles(playerStr ).execute();
-			return battles;
-		} 
-		catch (CrServiceException e) {
-			
-			e.printStackTrace();
-			
-			// Error occurs in query
-			try {
-				System.out.println("Error sleep a little ...");
-				Thread.sleep(2000);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			
-			return new Battle[] {};
-		}
-		
+		return playerStr;
 	}
 	
+
 	/**
 	 * Save data to file
 	 */
-	private void saveBattles(Battle[] battles) {
+	private synchronized  void saveBattles(Battle[] battles) {
 		// System.out.println("saving battles" + battles.length);
 		
 		for ( Battle battle : battles ) {
@@ -195,7 +199,7 @@ public class BattleVisitor {
 		
 		ConfigManager.init();
 		
-		BattleVisitor battleVisitor = new BattleVisitor();
+		BattleVisitorThread battleVisitor = new BattleVisitorThread();
 		battleVisitor.init();
 		battleVisitor.startVisit(5 * 1000); /*x * 1mn*/
 		battleVisitor.end();

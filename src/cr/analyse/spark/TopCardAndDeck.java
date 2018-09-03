@@ -7,15 +7,18 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
+import cr.model.CardEnum;
+
 import static org.apache.spark.sql.functions.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class TopCardAndDeck {
 	
-	private static final String CR_DATA_FILE = "C:\\temp\\cr_data_1535648137169\\cr_data_1535648137169.csv";
+	private static final String CR_DATA_FILE = "C:\\temp\\cr_data_1535732470306\\cr_data_1535732470306.csv";
 	
 	private void doWork() {
 		Logger.getLogger("org").setLevel(Level.OFF);
@@ -41,6 +44,7 @@ public class TopCardAndDeck {
 				.withColumn("deckid", when(col("winner").equalTo(lit(1)), col("deckid_P1")).otherwise(col("deckid_P2")) );
 				*/ 
 		
+		// winners dataset infos ..
 		Dataset<Row> dsWinners = ds.select(
 				col("utctime"),
 				when(col("winner").equalTo(lit(1)), col("deckid_P1")).otherwise(col("deckid_P2")) .as("deckid"),
@@ -130,218 +134,268 @@ public class TopCardAndDeck {
 				when(col("winner").equalTo(lit(1)), col("clone_P1")).otherwise(col("clone_P2")) .as("clone"),
 				when(col("winner").equalTo(lit(1)), col("barbarian_barrel_P1")).otherwise(col("barbarian_barrel_P2")) .as("barbarian_barrel"),
 				when(col("winner").equalTo(lit(1)), col("heal_P1")).otherwise(col("heal_P2")) .as("heal"),
-				when(col("winner").equalTo(lit(1)), col("giant_snowball_P1")).otherwise(col("giant_snowball_P2")) .as("giant_snowball")
+				when(col("winner").equalTo(lit(1)), col("giant_snowball_P1")).otherwise(col("giant_snowball_P2")) .as("giant_snowball"),
+				when(col("winner").equalTo(lit(1)), col("human_deck_P1")).otherwise(col("human_deck_P2")) .as("human_deck")
 						 
 				);
-			dsWinners.show();
 			
-			Dataset<Row> mostPlayed = 
-					dsWinners.groupBy("deckid")
-					.agg(
-						count("*").as("count"),
-						first(col("knight")).as("knight"),
-						first(col("archers")).as("archers"),
-						first(col("goblins")).as("goblins"),
-						first(col("giant")).as("giant"),
-						first(col("pekka")).as("pekka"),
-						first(col("minions")).as("minions"),
-						first(col("balloon")).as("balloon"),
-						first(col("witch")).as("witch"),
-						first(col("barbarians")).as("barbarians"),
-						first(col("golem")).as("golem"),
-						first(col("skeletons")).as("skeletons"),
-						first(col("valkyrie")).as("valkyrie"),
-						first(col("skeleton_army")).as("skeleton_army"),
-						first(col("bomber")).as("bomber"),
-						first(col("musketeer")).as("musketeer"),
-						first(col("baby_dragon")).as("baby_dragon"),
-						first(col("prince")).as("prince"),
-						first(col("wizard")).as("wizard"),
-						first(col("mini_pekka")).as("mini_pekka"),
-						first(col("spear_goblins")).as("spear_goblins"),
-						first(col("giant_skeleton")).as("giant_skeleton"),
-						first(col("hog_rider")).as("hog_rider"),
-						first(col("minion_horde")).as("minion_horde"),
-						first(col("ice_wizard")).as("ice_wizard"),
-						first(col("royal_giant")).as("royal_giant"),
-						first(col("guards")).as("guards"),
-						first(col("princess")).as("princess"),
-						first(col("dark_prince")).as("dark_prince"),
-						first(col("three_musketeers")).as("three_musketeers"),
-						first(col("lava_hound")).as("lava_hound"),
-						first(col("ice_spirit")).as("ice_spirit"),
-						first(col("fire_spirits")).as("fire_spirits"),
-						first(col("miner")).as("miner"),
-						first(col("sparky")).as("sparky"),
-						first(col("bowler")).as("bowler"),
-						first(col("lumberjack")).as("lumberjack"),
-						first(col("battle_ram")).as("battle_ram"),
-						first(col("inferno_dragon")).as("inferno_dragon"),
-						first(col("ice_golem")).as("ice_golem"),
-						first(col("mega_minion")).as("mega_minion"),
-						first(col("dart_goblin")).as("dart_goblin"),
-						first(col("goblin_gang")).as("goblin_gang"),
-						first(col("electro_wizard")).as("electro_wizard"),
-						first(col("elite_barbarians")).as("elite_barbarians"),
-						first(col("hunter")).as("hunter"),
-						first(col("executioner")).as("executioner"),
-						first(col("bandit")).as("bandit"),
-						first(col("royal_recruits")).as("royal_recruits"),
-						first(col("night_witch")).as("night_witch"),
-						first(col("bats")).as("bats"),
-						first(col("royal_ghost")).as("royal_ghost"),
-						first(col("zappies")).as("zappies"),
-						first(col("rascals")).as("rascals"),
-						first(col("cannon_cart")).as("cannon_cart"),
-						first(col("mega_knight")).as("mega_knight"),
-						first(col("skeleton_barrel")).as("skeleton_barrel"),
-						first(col("flying_machine")).as("flying_machine"),
-						first(col("royal_hogs")).as("royal_hogs"),
-						first(col("magic_archer")).as("magic_archer"),
-						first(col("cannon")).as("cannon"),
-						first(col("goblin_hut")).as("goblin_hut"),
-						first(col("mortar")).as("mortar"),
-						first(col("inferno_tower")).as("inferno_tower"),
-						first(col("bomb_tower")).as("bomb_tower"),
-						first(col("barbarian_hut")).as("barbarian_hut"),
-						first(col("tesla")).as("tesla"),
-						first(col("elixir_collector")).as("elixir_collector"),
-						first(col("x_bow")).as("x_bow"),
-						first(col("tombstone")).as("tombstone"),
-						first(col("furnace")).as("furnace"),
-						first(col("fireball")).as("fireball"),
-						first(col("arrows")).as("arrows"),
-						first(col("rage")).as("rage"),
-						first(col("rocket")).as("rocket"),
-						first(col("goblin_barrel")).as("goblin_barrel"),
-						first(col("freeze")).as("freeze"),
-						first(col("mirror")).as("mirror"),
-						first(col("lightning")).as("lightning"),
-						first(col("zap")).as("zap"),
-						first(col("poison")).as("poison"),
-						first(col("graveyard")).as("graveyard"),
-						first(col("the_log")).as("the_log"),
-						first(col("tornado")).as("tornado"),
-						first(col("clone")).as("clone"),
-						first(col("barbarian_barrel")).as("barbarian_barrel"),
-						first(col("heal")).as("heal"),
-						first(col("giant_snowball")).as("giant_snowball")
-						)
-					.orderBy(desc("count"));
-			
-			
-			mostPlayed.show(false);
-			System.out.println("most:" + mostPlayed.count() );
-			
-			Dataset<Row> sumCards = dsWinners.select(
-					sum(col("knight")).as("knight"),
-					sum(col("archers")).as("archers"),
-					sum(col("goblins")).as("goblins"),
-					sum(col("giant")).as("giant"),
-					sum(col("pekka")).as("pekka"),
-					sum(col("minions")).as("minions"),
-					sum(col("balloon")).as("balloon"),
-					sum(col("witch")).as("witch"),
-					sum(col("barbarians")).as("barbarians"),
-					sum(col("golem")).as("golem"),
-					sum(col("skeletons")).as("skeletons"),
-					sum(col("valkyrie")).as("valkyrie"),
-					sum(col("skeleton_army")).as("skeleton_army"),
-					sum(col("bomber")).as("bomber"),
-					sum(col("musketeer")).as("musketeer"),
-					sum(col("baby_dragon")).as("baby_dragon"),
-					sum(col("prince")).as("prince"),
-					sum(col("wizard")).as("wizard"),
-					sum(col("mini_pekka")).as("mini_pekka"),
-					sum(col("spear_goblins")).as("spear_goblins"),
-					sum(col("giant_skeleton")).as("giant_skeleton"),
-					sum(col("hog_rider")).as("hog_rider"),
-					sum(col("minion_horde")).as("minion_horde"),
-					sum(col("ice_wizard")).as("ice_wizard"),
-					sum(col("royal_giant")).as("royal_giant"),
-					sum(col("guards")).as("guards"),
-					sum(col("princess")).as("princess"),
-					sum(col("dark_prince")).as("dark_prince"),
-					sum(col("three_musketeers")).as("three_musketeers"),
-					sum(col("lava_hound")).as("lava_hound"),
-					sum(col("ice_spirit")).as("ice_spirit"),
-					sum(col("fire_spirits")).as("fire_spirits"),
-					sum(col("miner")).as("miner"),
-					sum(col("sparky")).as("sparky"),
-					sum(col("bowler")).as("bowler"),
-					sum(col("lumberjack")).as("lumberjack"),
-					sum(col("battle_ram")).as("battle_ram"),
-					sum(col("inferno_dragon")).as("inferno_dragon"),
-					sum(col("ice_golem")).as("ice_golem"),
-					sum(col("mega_minion")).as("mega_minion"),
-					sum(col("dart_goblin")).as("dart_goblin"),
-					sum(col("goblin_gang")).as("goblin_gang"),
-					sum(col("electro_wizard")).as("electro_wizard"),
-					sum(col("elite_barbarians")).as("elite_barbarians"),
-					sum(col("hunter")).as("hunter"),
-					sum(col("executioner")).as("executioner"),
-					sum(col("bandit")).as("bandit"),
-					sum(col("royal_recruits")).as("royal_recruits"),
-					sum(col("night_witch")).as("night_witch"),
-					sum(col("bats")).as("bats"),
-					sum(col("royal_ghost")).as("royal_ghost"),
-					sum(col("zappies")).as("zappies"),
-					sum(col("rascals")).as("rascals"),
-					sum(col("cannon_cart")).as("cannon_cart"),
-					sum(col("mega_knight")).as("mega_knight"),
-					sum(col("skeleton_barrel")).as("skeleton_barrel"),
-					sum(col("flying_machine")).as("flying_machine"),
-					sum(col("royal_hogs")).as("royal_hogs"),
-					sum(col("magic_archer")).as("magic_archer"),
-					sum(col("cannon")).as("cannon"),
-					sum(col("goblin_hut")).as("goblin_hut"),
-					sum(col("mortar")).as("mortar"),
-					sum(col("inferno_tower")).as("inferno_tower"),
-					sum(col("bomb_tower")).as("bomb_tower"),
-					sum(col("barbarian_hut")).as("barbarian_hut"),
-					sum(col("tesla")).as("tesla"),
-					sum(col("elixir_collector")).as("elixir_collector"),
-					sum(col("x_bow")).as("x_bow"),
-					sum(col("tombstone")).as("tombstone"),
-					sum(col("furnace")).as("furnace"),
-					sum(col("fireball")).as("fireball"),
-					sum(col("arrows")).as("arrows"),
-					sum(col("rage")).as("rage"),
-					sum(col("rocket")).as("rocket"),
-					sum(col("goblin_barrel")).as("goblin_barrel"),
-					sum(col("freeze")).as("freeze"),
-					sum(col("mirror")).as("mirror"),
-					sum(col("lightning")).as("lightning"),
-					sum(col("zap")).as("zap"),
-					sum(col("poison")).as("poison"),
-					sum(col("graveyard")).as("graveyard"),
-					sum(col("the_log")).as("the_log"),
-					sum(col("tornado")).as("tornado"),
-					sum(col("clone")).as("clone"),
-					sum(col("barbarian_barrel")).as("barbarian_barrel"),
-					sum(col("heal")).as("heal"),
-					sum(col("giant_snowball")).as("giant_snowball")
-					
-					);
-			
-			sumCards.show();
-			
-			String[] columns = sumCards.columns();
-			List<CardCount> cards = new ArrayList<>();
-			
-			Row row = sumCards.takeAsList(1).get(0);
-			for ( int i = 0; i < row.size(); i++) {
-				//System.out.println(columns[i] + ":" + row.getDouble(i) + ":" + (100.*row.getDouble(i)/count) + "%");
-				
-				cards.add(new CardCount(columns[i], row.getDouble(i), (100.*row.getDouble(i)/count)));
-			}
-			
-			Collections.sort(cards);
-			
-			for ( CardCount cardCount : cards ) {
-				System.out.println(cardCount.toString());
-			}
 		
+		
+		getTopDecksWithCards(
+				Arrays.asList(
+						CardEnum.arrows,  CardEnum.archers,  CardEnum.knight, CardEnum.fire_spirits, CardEnum.goblins,
+						CardEnum.minion_horde, CardEnum.barbarians,  CardEnum.rocket, CardEnum.mega_minion, CardEnum.ice_golem,
+						CardEnum.goblin_hut, CardEnum.furnace,  CardEnum.valkyrie, CardEnum.goblin_barrel, CardEnum.pekka,CardEnum.lightning,
+						CardEnum.balloon, CardEnum.skeleton_army,  CardEnum.freeze, CardEnum.inferno_dragon, CardEnum.electro_wizard,
+						CardEnum.hunter, CardEnum.sparky
+						),
+				dsWinners);
+		
+		/*getTopDecksWithCards(
+				Arrays.asList(
+						CardEnum.skeleton_barrel, CardEnum.tesla,  CardEnum.zap, CardEnum.bats, CardEnum.royal_giant,
+						CardEnum.knight, CardEnum.minion_horde,  CardEnum.fireball, CardEnum.mini_pekka, CardEnum.royal_hogs,
+						CardEnum.dart_goblin, CardEnum.wizard,  CardEnum.giant, CardEnum.flying_machine, CardEnum.golem,
+						CardEnum.prince, CardEnum.giant_skeleton,  CardEnum.dark_prince, CardEnum.mirror, CardEnum.x_bow,
+						CardEnum.poison, CardEnum.bandit,  CardEnum.royal_ghost, CardEnum.lava_hound, CardEnum.mega_knight, CardEnum.the_log
+						),
+				dsWinners);*/
+			
+		
+	}
+	
+	private void getTopDecksWithCards(List<CardEnum> cards, Dataset<Row> dsWinners) {
+		
+		List<CardEnum> cardNotPossible = new ArrayList<>();
+		for (CardEnum cardEnum : CardEnum.values()) {
+			if ( !cards.contains(cardEnum) ) {
+				cardNotPossible.add(cardEnum);
+			}
+		}
+		
+		// First filter all deck without cards
+		for (CardEnum cardEnum : cardNotPossible) {
+			dsWinners = dsWinners.filter(
+				col(cardEnum.name()).equalTo(lit(0)));
+		}
+		
+		System.out.println("Filtered size: " + dsWinners.count());
+		
+		// now show top decks on this short list
+		showTopDecks(dsWinners);
+		
+	}
+	
+	private void showTopDecks(Dataset<Row> dsWinners) {
+		Dataset<Row> mostPlayed = 
+				dsWinners.groupBy("deckid")
+				.agg(
+					count("*").as("count"),
+					first(col("human_deck")).as("human_deck")
+					/*first(col("knight")).as("knight"),
+					first(col("archers")).as("archers"),
+					first(col("goblins")).as("goblins"),
+					first(col("giant")).as("giant"),
+					first(col("pekka")).as("pekka"),
+					first(col("minions")).as("minions"),
+					first(col("balloon")).as("balloon"),
+					first(col("witch")).as("witch"),
+					first(col("barbarians")).as("barbarians"),
+					first(col("golem")).as("golem"),
+					first(col("skeletons")).as("skeletons"),
+					first(col("valkyrie")).as("valkyrie"),
+					first(col("skeleton_army")).as("skeleton_army"),
+					first(col("bomber")).as("bomber"),
+					first(col("musketeer")).as("musketeer"),
+					first(col("baby_dragon")).as("baby_dragon"),
+					first(col("prince")).as("prince"),
+					first(col("wizard")).as("wizard"),
+					first(col("mini_pekka")).as("mini_pekka"),
+					first(col("spear_goblins")).as("spear_goblins"),
+					first(col("giant_skeleton")).as("giant_skeleton"),
+					first(col("hog_rider")).as("hog_rider"),
+					first(col("minion_horde")).as("minion_horde"),
+					first(col("ice_wizard")).as("ice_wizard"),
+					first(col("royal_giant")).as("royal_giant"),
+					first(col("guards")).as("guards"),
+					first(col("princess")).as("princess"),
+					first(col("dark_prince")).as("dark_prince"),
+					first(col("three_musketeers")).as("three_musketeers"),
+					first(col("lava_hound")).as("lava_hound"),
+					first(col("ice_spirit")).as("ice_spirit"),
+					first(col("fire_spirits")).as("fire_spirits"),
+					first(col("miner")).as("miner"),
+					first(col("sparky")).as("sparky"),
+					first(col("bowler")).as("bowler"),
+					first(col("lumberjack")).as("lumberjack"),
+					first(col("battle_ram")).as("battle_ram"),
+					first(col("inferno_dragon")).as("inferno_dragon"),
+					first(col("ice_golem")).as("ice_golem"),
+					first(col("mega_minion")).as("mega_minion"),
+					first(col("dart_goblin")).as("dart_goblin"),
+					first(col("goblin_gang")).as("goblin_gang"),
+					first(col("electro_wizard")).as("electro_wizard"),
+					first(col("elite_barbarians")).as("elite_barbarians"),
+					first(col("hunter")).as("hunter"),
+					first(col("executioner")).as("executioner"),
+					first(col("bandit")).as("bandit"),
+					first(col("royal_recruits")).as("royal_recruits"),
+					first(col("night_witch")).as("night_witch"),
+					first(col("bats")).as("bats"),
+					first(col("royal_ghost")).as("royal_ghost"),
+					first(col("zappies")).as("zappies"),
+					first(col("rascals")).as("rascals"),
+					first(col("cannon_cart")).as("cannon_cart"),
+					first(col("mega_knight")).as("mega_knight"),
+					first(col("skeleton_barrel")).as("skeleton_barrel"),
+					first(col("flying_machine")).as("flying_machine"),
+					first(col("royal_hogs")).as("royal_hogs"),
+					first(col("magic_archer")).as("magic_archer"),
+					first(col("cannon")).as("cannon"),
+					first(col("goblin_hut")).as("goblin_hut"),
+					first(col("mortar")).as("mortar"),
+					first(col("inferno_tower")).as("inferno_tower"),
+					first(col("bomb_tower")).as("bomb_tower"),
+					first(col("barbarian_hut")).as("barbarian_hut"),
+					first(col("tesla")).as("tesla"),
+					first(col("elixir_collector")).as("elixir_collector"),
+					first(col("x_bow")).as("x_bow"),
+					first(col("tombstone")).as("tombstone"),
+					first(col("furnace")).as("furnace"),
+					first(col("fireball")).as("fireball"),
+					first(col("arrows")).as("arrows"),
+					first(col("rage")).as("rage"),
+					first(col("rocket")).as("rocket"),
+					first(col("goblin_barrel")).as("goblin_barrel"),
+					first(col("freeze")).as("freeze"),
+					first(col("mirror")).as("mirror"),
+					first(col("lightning")).as("lightning"),
+					first(col("zap")).as("zap"),
+					first(col("poison")).as("poison"),
+					first(col("graveyard")).as("graveyard"),
+					first(col("the_log")).as("the_log"),
+					first(col("tornado")).as("tornado"),
+					first(col("clone")).as("clone"),
+					first(col("barbarian_barrel")).as("barbarian_barrel"),
+					first(col("heal")).as("heal"),
+					first(col("giant_snowball")).as("giant_snowball")*/
+					)
+				.orderBy(desc("count"));
+		
+		mostPlayed.show(false);
+		System.out.println("most:" + mostPlayed.count() );
+
+	}
+	
+	private void showTopCards(Dataset<Row> dsWinners) {
+		
+		long count = dsWinners.count(); 
+		Dataset<Row> sumCards = dsWinners.select(
+				sum(col("knight")).as("knight"),
+				sum(col("archers")).as("archers"),
+				sum(col("goblins")).as("goblins"),
+				sum(col("giant")).as("giant"),
+				sum(col("pekka")).as("pekka"),
+				sum(col("minions")).as("minions"),
+				sum(col("balloon")).as("balloon"),
+				sum(col("witch")).as("witch"),
+				sum(col("barbarians")).as("barbarians"),
+				sum(col("golem")).as("golem"),
+				sum(col("skeletons")).as("skeletons"),
+				sum(col("valkyrie")).as("valkyrie"),
+				sum(col("skeleton_army")).as("skeleton_army"),
+				sum(col("bomber")).as("bomber"),
+				sum(col("musketeer")).as("musketeer"),
+				sum(col("baby_dragon")).as("baby_dragon"),
+				sum(col("prince")).as("prince"),
+				sum(col("wizard")).as("wizard"),
+				sum(col("mini_pekka")).as("mini_pekka"),
+				sum(col("spear_goblins")).as("spear_goblins"),
+				sum(col("giant_skeleton")).as("giant_skeleton"),
+				sum(col("hog_rider")).as("hog_rider"),
+				sum(col("minion_horde")).as("minion_horde"),
+				sum(col("ice_wizard")).as("ice_wizard"),
+				sum(col("royal_giant")).as("royal_giant"),
+				sum(col("guards")).as("guards"),
+				sum(col("princess")).as("princess"),
+				sum(col("dark_prince")).as("dark_prince"),
+				sum(col("three_musketeers")).as("three_musketeers"),
+				sum(col("lava_hound")).as("lava_hound"),
+				sum(col("ice_spirit")).as("ice_spirit"),
+				sum(col("fire_spirits")).as("fire_spirits"),
+				sum(col("miner")).as("miner"),
+				sum(col("sparky")).as("sparky"),
+				sum(col("bowler")).as("bowler"),
+				sum(col("lumberjack")).as("lumberjack"),
+				sum(col("battle_ram")).as("battle_ram"),
+				sum(col("inferno_dragon")).as("inferno_dragon"),
+				sum(col("ice_golem")).as("ice_golem"),
+				sum(col("mega_minion")).as("mega_minion"),
+				sum(col("dart_goblin")).as("dart_goblin"),
+				sum(col("goblin_gang")).as("goblin_gang"),
+				sum(col("electro_wizard")).as("electro_wizard"),
+				sum(col("elite_barbarians")).as("elite_barbarians"),
+				sum(col("hunter")).as("hunter"),
+				sum(col("executioner")).as("executioner"),
+				sum(col("bandit")).as("bandit"),
+				sum(col("royal_recruits")).as("royal_recruits"),
+				sum(col("night_witch")).as("night_witch"),
+				sum(col("bats")).as("bats"),
+				sum(col("royal_ghost")).as("royal_ghost"),
+				sum(col("zappies")).as("zappies"),
+				sum(col("rascals")).as("rascals"),
+				sum(col("cannon_cart")).as("cannon_cart"),
+				sum(col("mega_knight")).as("mega_knight"),
+				sum(col("skeleton_barrel")).as("skeleton_barrel"),
+				sum(col("flying_machine")).as("flying_machine"),
+				sum(col("royal_hogs")).as("royal_hogs"),
+				sum(col("magic_archer")).as("magic_archer"),
+				sum(col("cannon")).as("cannon"),
+				sum(col("goblin_hut")).as("goblin_hut"),
+				sum(col("mortar")).as("mortar"),
+				sum(col("inferno_tower")).as("inferno_tower"),
+				sum(col("bomb_tower")).as("bomb_tower"),
+				sum(col("barbarian_hut")).as("barbarian_hut"),
+				sum(col("tesla")).as("tesla"),
+				sum(col("elixir_collector")).as("elixir_collector"),
+				sum(col("x_bow")).as("x_bow"),
+				sum(col("tombstone")).as("tombstone"),
+				sum(col("furnace")).as("furnace"),
+				sum(col("fireball")).as("fireball"),
+				sum(col("arrows")).as("arrows"),
+				sum(col("rage")).as("rage"),
+				sum(col("rocket")).as("rocket"),
+				sum(col("goblin_barrel")).as("goblin_barrel"),
+				sum(col("freeze")).as("freeze"),
+				sum(col("mirror")).as("mirror"),
+				sum(col("lightning")).as("lightning"),
+				sum(col("zap")).as("zap"),
+				sum(col("poison")).as("poison"),
+				sum(col("graveyard")).as("graveyard"),
+				sum(col("the_log")).as("the_log"),
+				sum(col("tornado")).as("tornado"),
+				sum(col("clone")).as("clone"),
+				sum(col("barbarian_barrel")).as("barbarian_barrel"),
+				sum(col("heal")).as("heal"),
+				sum(col("giant_snowball")).as("giant_snowball")
+				
+				);
+		
+		sumCards.show();
+		
+		String[] columns = sumCards.columns();
+		List<CardCount> cards = new ArrayList<>();
+		
+		Row row = sumCards.takeAsList(1).get(0);
+		for ( int i = 0; i < row.size(); i++) {
+			cards.add(new CardCount(columns[i], row.getDouble(i), (100.*row.getDouble(i)/count)));
+		}
+		
+		Collections.sort(cards);
+		
+		for ( CardCount cardCount : cards ) {
+			System.out.println(cardCount.toString());
+		}
 	}
 
 	
