@@ -61,5 +61,5 @@ Then getting player last matches, and keeping opponents to get other results.
 
 ## Dataset
 
-A first dataset is constructed, 363152 matches and can be accessed here.
+A first dataset is constructed, 363152 matches and can be accessed [here](https://github.com/kekepins/clash-royal-analytics/blob/master/dataset/cr_data_1535999786739.zip)
 
