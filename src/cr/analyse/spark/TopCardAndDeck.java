@@ -240,24 +240,27 @@ public class TopCardAndDeck {
 		//showTopCards(dsWinners, dsLoosers);
 		
 		//showTopCards(dsLoosers);
-			
-		getTopWarDayDeck(
-                Arrays.asList(
-                        CardEnum.arrows,  CardEnum.bats,  CardEnum.zap, CardEnum.minion_horde, CardEnum.spear_goblins,
-                        /*CardEnum.barbarians,*/  CardEnum.mega_minion, CardEnum.royal_hogs, CardEnum.battle_ram, CardEnum.hog_rider,
-                        CardEnum.wizard,  CardEnum.clone, CardEnum.prince,  CardEnum.giant_skeleton, CardEnum.mirror, CardEnum.barbarian_barrel, CardEnum.inferno_dragon, CardEnum.graveyard,
-                        CardEnum.lava_hound, CardEnum.magic_archer
-                        ),
-                dsWinners);
 		
-		getTopWarDayDeck(
-                Arrays.asList(
-                        CardEnum.arrows,  CardEnum.bats,  CardEnum.zap, CardEnum.minion_horde, CardEnum.spear_goblins,
-                        /*CardEnum.barbarians,*/  CardEnum.mega_minion, CardEnum.royal_hogs, CardEnum.battle_ram, CardEnum.hog_rider,
-                        CardEnum.wizard,  CardEnum.clone, CardEnum.prince,  CardEnum.giant_skeleton, CardEnum.mirror, CardEnum.barbarian_barrel, CardEnum.inferno_dragon, CardEnum.graveyard,
-                        CardEnum.lava_hound, CardEnum.magic_archer
-                        ),
-                dsLoosers);
+		/*List<CardEnum> deck =  Arrays.asList(
+                CardEnum.arrows,  CardEnum.ice_spirit, CardEnum.bats,  CardEnum.zap, CardEnum.minion_horde, CardEnum.spear_goblins,
+                CardEnum.mega_minion, CardEnum.royal_hogs, CardEnum.battle_ram, CardEnum.hog_rider,
+                CardEnum.wizard,  CardEnum.clone, CardEnum.prince,  CardEnum.giant_skeleton, CardEnum.mirror, CardEnum.barbarian_barrel, CardEnum.inferno_dragon, CardEnum.graveyard,
+                CardEnum.lava_hound, CardEnum.magic_archer
+                );
+                */
+        List<CardEnum> deck =  Arrays.asList(
+                        CardEnum.arrows,  CardEnum.archers, CardEnum.knight, CardEnum.fire_spirits,
+                        CardEnum.elite_barbarians,  CardEnum.goblins, CardEnum.barbarians, CardEnum.spear_goblins,
+                        CardEnum.musketeer,  CardEnum.mega_minion, CardEnum.heal, CardEnum.valkyrie,
+                        CardEnum.fireball, CardEnum.elixir_collector, CardEnum.three_musketeers, CardEnum.executioner,
+                        CardEnum.lightning,  CardEnum.tornado, CardEnum.dark_prince,  CardEnum.skeleton_army, CardEnum.freeze, 
+                        CardEnum.poison, CardEnum.sparky, CardEnum.ice_wizard,
+                        CardEnum.magic_archer, CardEnum.the_log
+                        );                
+			
+		getTopWarDayDeck(deck,   dsWinners);
+		
+		getTopWarDayDeck(deck,  dsLoosers);
 
 		
 		/*getTopDecksWitTheseCards(

@@ -82,7 +82,7 @@ public enum CardEnum {
 	zap(2, CardType.Spell, Rarity.Common), 
 	poison(4, CardType.Spell, Rarity.Epic), 
 	graveyard(5, CardType.Spell, Rarity.Legendary), 
-	the_log(2, CardType.Spell, Rarity.Legendary), 
+	the_log(2, CardType.Spell, Rarity.Legendary),   // buche
 	tornado(3, CardType.Spell, Rarity.Epic), 
 	clone(3, CardType.Spell, Rarity.Epic), 
 	barbarian_barrel(3, CardType.Spell, Rarity.Epic), 
