@@ -58,7 +58,7 @@ public enum CardEnum {
 	mega_knight(7, CardType.Troop, Rarity.Legendary),
 	skeleton_barrel(3, CardType.Troop, Rarity.Common),
 	flying_machine(4, CardType.Troop, Rarity.Rare),
-	royal_hogs(5, CardType.Troop, Rarity.Rare),
+	royal_hogs(5, CardType.Troop, Rarity.Rare), // cochons royaux
 	magic_archer(4, CardType.Troop, Rarity.Legendary),
 	cannon(3, CardType.Building, Rarity.Common),
 	goblin_hut(5, CardType.Building, Rarity.Rare),
