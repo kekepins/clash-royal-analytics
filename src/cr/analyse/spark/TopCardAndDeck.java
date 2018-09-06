@@ -2,7 +2,7 @@ package cr.analyse.spark;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-
+import org.apache.spark.sql.Column;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -22,6 +22,82 @@ public class TopCardAndDeck {
 	
 	private static final String CR_DATA_FILE = "C:\\temp\\cr_data_1535999786739\\cr_data_1535999786739.csv";
 	
+	
+	private void doWork2() {
+		Logger.getLogger("org").setLevel(Level.OFF);
+		Logger.getLogger("akka").setLevel(Level.OFF);
+	
+		SparkSession spark = initSparkSesion();
+		
+		// load dataset as csv file
+		Dataset<Row> ds = loadDataset(spark);
+		
+		// count data :
+		System.out.println("Total " + ds.count() );
+		
+		// dataset with winners deck, elimate draws
+		ds = ds.filter(col("winner").notEqual(lit(0)));
+		
+		
+		System.out.println("Total without draw " + ds.count() );
+		
+		// refactor dataset
+		// Winners union Loosers union draw
+		Column[] colWinners = new Column[CardEnum.values().length + 3];
+		Column[] colLoosers = new Column[CardEnum.values().length + 3];
+		int idx = 0;
+		for (CardEnum card : CardEnum.values() ) {
+			colWinners[idx] = when(col("winner").equalTo(lit(1)), col(card.name() +  "_P1")).otherwise(col(card.name() + "_P2")) .as(card.name());
+			colLoosers[idx] = when(col("winner").equalTo(lit(2)), col(card.name() +  "_P1")).otherwise(col(card.name() + "_P2")) .as(card.name());
+			idx++;
+		}
+		
+		colWinners[idx] = when(col("winner").equalTo(lit(1)), col("deckid_P1")).otherwise(col("deckid_P2")) .as("deckid");
+		colLoosers[idx] = when(col("winner").equalTo(lit(2)), col("deckid_P1")).otherwise(col("deckid_P2")) .as("deckid");
+		idx++;
+		colWinners[idx] = when(col("winner").equalTo(lit(1)), col("human_deck_P1")).otherwise(col("human_deck_P2")) .as("human_deck");
+		colLoosers[idx] = when(col("winner").equalTo(lit(2)), col("human_deck_P1")).otherwise(col("human_deck_P2")) .as("human_deck");
+		idx++;
+		colWinners[idx] = lit(1).as("isWinner");
+		colLoosers[idx] = lit(0).as("isLooser");
+		
+		
+		ds = 
+			ds.select(colWinners).union(ds.select(colLoosers));
+		
+		ds.show(false);
+		
+		long count = ds.count();
+		
+		
+		System.out.println("Total with refactor " + ds.count() );
+
+		// Top cards
+		// Sum cards
+		List<Column> cols = new ArrayList<>();
+		idx = 0;
+		for ( CardEnum card : CardEnum.values()) {
+			//cols[idx++] = sum(col(card.name())).as(card.name());
+			cols.add(sum(col(card.name())).as(card.name()));
+			cols.add(sum(when(col("isWinner").equalTo(lit(1)), col(card.name()) )).as(card.name() + "win"));
+			cols.add(sum(when(col("isWinner").equalTo(lit(0)), col(card.name()) )).as(card.name() + "lost"));
+			cols.add( sum(col(card.name())).as(card.name()).divide(lit(count)).as(card.name() + "pct") );
+			
+			
+		}
+		
+		ds = ds.select(cols.toArray(new Column[cols.size()]));
+		
+		for ( CardEnum card : CardEnum.values()) {
+			ds = ds.withColumn(card.name() + "pctwin", col(card.name() + "win").divide(lit(count)));
+		}
+		
+		ds.show();
+		//return ds.select(cols);
+		
+		
+		
+	}
 	private void doWork() {
 		Logger.getLogger("org").setLevel(Level.OFF);
 		Logger.getLogger("akka").setLevel(Level.OFF);
@@ -237,7 +313,7 @@ public class TopCardAndDeck {
 				);
 		
 		
-		//showTopCards(dsWinners, dsLoosers);
+		showTopCards(dsWinners, dsLoosers);
 		
 		//showTopCards(dsLoosers);
 		
@@ -248,7 +324,7 @@ public class TopCardAndDeck {
                 CardEnum.lava_hound, CardEnum.magic_archer
                 );
                 */
-        List<CardEnum> deck =  Arrays.asList(
+        /*List<CardEnum> deck =  Arrays.asList(
                         CardEnum.arrows,  CardEnum.archers, CardEnum.knight, CardEnum.fire_spirits,
                         CardEnum.elite_barbarians,  CardEnum.goblins, CardEnum.barbarians, CardEnum.spear_goblins,
                         CardEnum.musketeer,  CardEnum.mega_minion, CardEnum.heal, CardEnum.valkyrie,
@@ -261,6 +337,7 @@ public class TopCardAndDeck {
 		getTopWarDayDeck(deck,   dsWinners);
 		
 		getTopWarDayDeck(deck,  dsLoosers);
+		*/
 
 		
 		/*getTopDecksWitTheseCards(
@@ -575,99 +652,19 @@ public class TopCardAndDeck {
 	}
 	
 	private Dataset<Row> sumCards(Dataset<Row> ds ) {
-		return ds.select(
-				sum(col("knight")).as("knight"),
-				sum(col("archers")).as("archers"),
-				sum(col("goblins")).as("goblins"),
-				sum(col("giant")).as("giant"),
-				sum(col("pekka")).as("pekka"),
-				sum(col("minions")).as("minions"),
-				sum(col("balloon")).as("balloon"),
-				sum(col("witch")).as("witch"),
-				sum(col("barbarians")).as("barbarians"),
-				sum(col("golem")).as("golem"),
-				sum(col("skeletons")).as("skeletons"),
-				sum(col("valkyrie")).as("valkyrie"),
-				sum(col("skeleton_army")).as("skeleton_army"),
-				sum(col("bomber")).as("bomber"),
-				sum(col("musketeer")).as("musketeer"),
-				sum(col("baby_dragon")).as("baby_dragon"),
-				sum(col("prince")).as("prince"),
-				sum(col("wizard")).as("wizard"),
-				sum(col("mini_pekka")).as("mini_pekka"),
-				sum(col("spear_goblins")).as("spear_goblins"),
-				sum(col("giant_skeleton")).as("giant_skeleton"),
-				sum(col("hog_rider")).as("hog_rider"),
-				sum(col("minion_horde")).as("minion_horde"),
-				sum(col("ice_wizard")).as("ice_wizard"),
-				sum(col("royal_giant")).as("royal_giant"),
-				sum(col("guards")).as("guards"),
-				sum(col("princess")).as("princess"),
-				sum(col("dark_prince")).as("dark_prince"),
-				sum(col("three_musketeers")).as("three_musketeers"),
-				sum(col("lava_hound")).as("lava_hound"),
-				sum(col("ice_spirit")).as("ice_spirit"),
-				sum(col("fire_spirits")).as("fire_spirits"),
-				sum(col("miner")).as("miner"),
-				sum(col("sparky")).as("sparky"),
-				sum(col("bowler")).as("bowler"),
-				sum(col("lumberjack")).as("lumberjack"),
-				sum(col("battle_ram")).as("battle_ram"),
-				sum(col("inferno_dragon")).as("inferno_dragon"),
-				sum(col("ice_golem")).as("ice_golem"),
-				sum(col("mega_minion")).as("mega_minion"),
-				sum(col("dart_goblin")).as("dart_goblin"),
-				sum(col("goblin_gang")).as("goblin_gang"),
-				sum(col("electro_wizard")).as("electro_wizard"),
-				sum(col("elite_barbarians")).as("elite_barbarians"),
-				sum(col("hunter")).as("hunter"),
-				sum(col("executioner")).as("executioner"),
-				sum(col("bandit")).as("bandit"),
-				sum(col("royal_recruits")).as("royal_recruits"),
-				sum(col("night_witch")).as("night_witch"),
-				sum(col("bats")).as("bats"),
-				sum(col("royal_ghost")).as("royal_ghost"),
-				sum(col("zappies")).as("zappies"),
-				sum(col("rascals")).as("rascals"),
-				sum(col("cannon_cart")).as("cannon_cart"),
-				sum(col("mega_knight")).as("mega_knight"),
-				sum(col("skeleton_barrel")).as("skeleton_barrel"),
-				sum(col("flying_machine")).as("flying_machine"),
-				sum(col("royal_hogs")).as("royal_hogs"),
-				sum(col("magic_archer")).as("magic_archer"),
-				sum(col("cannon")).as("cannon"),
-				sum(col("goblin_hut")).as("goblin_hut"),
-				sum(col("mortar")).as("mortar"),
-				sum(col("inferno_tower")).as("inferno_tower"),
-				sum(col("bomb_tower")).as("bomb_tower"),
-				sum(col("barbarian_hut")).as("barbarian_hut"),
-				sum(col("tesla")).as("tesla"),
-				sum(col("elixir_collector")).as("elixir_collector"),
-				sum(col("x_bow")).as("x_bow"),
-				sum(col("tombstone")).as("tombstone"),
-				sum(col("furnace")).as("furnace"),
-				sum(col("fireball")).as("fireball"),
-				sum(col("arrows")).as("arrows"),
-				sum(col("rage")).as("rage"),
-				sum(col("rocket")).as("rocket"),
-				sum(col("goblin_barrel")).as("goblin_barrel"),
-				sum(col("freeze")).as("freeze"),
-				sum(col("mirror")).as("mirror"),
-				sum(col("lightning")).as("lightning"),
-				sum(col("zap")).as("zap"),
-				sum(col("poison")).as("poison"),
-				sum(col("graveyard")).as("graveyard"),
-				sum(col("the_log")).as("the_log"),
-				sum(col("tornado")).as("tornado"),
-				sum(col("clone")).as("clone"),
-				sum(col("barbarian_barrel")).as("barbarian_barrel"),
-				sum(col("heal")).as("heal"),
-				sum(col("giant_snowball")).as("giant_snowball")
-				);
+		
+		Column[] cols = new Column[CardEnum.values().length];
+		int idx = 0;
+		for ( CardEnum card : CardEnum.values()) {
+			cols[idx++] = sum(col(card.name())).as(card.name());
+		}
+		
+		return ds.select(cols);
+		
 	}
 	public static void main(String[] args) {
 		TopCardAndDeck topCardAndDeck = new TopCardAndDeck();
-		topCardAndDeck.doWork();
+		topCardAndDeck.doWork2();
 	}
 	
 	 
