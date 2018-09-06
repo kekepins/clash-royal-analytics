@@ -89,7 +89,7 @@ public class TopCardAndDeck {
 		ds = ds.select(cols.toArray(new Column[cols.size()]));
 		
 		for ( CardEnum card : CardEnum.values()) {
-			ds = ds.withColumn(card.name() + "pctwin", col(card.name() + "win").divide(lit(count)));
+			ds = ds.withColumn(card.name() + "pctwin", col(card.name() + "win").divide(col(card.name())));
 		}
 		
 		ds.show();
