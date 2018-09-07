@@ -37,6 +37,7 @@ public enum GameMode {
 	TeamVsTeam_RampUpElixir_Friendly,
 	TeamVsTeam_RampUpElixir_Tournament,
 	TeamVsTeam_DraftModeInsane_Friendly,
+	TeamVsTeam_Rage_Ladder,
 	Invalid,
 	PickMode,
 	TeamVsTeamLadder_GoldRush,
@@ -82,6 +83,7 @@ public enum GameMode {
 	Event_NewArena11,
 	Rage_Tournament,
 	PopularDecks_Friendly,
-	BlindDeck;
+	BlindDeck,
+	ClassicDecks_Friendly;
 	
 }
