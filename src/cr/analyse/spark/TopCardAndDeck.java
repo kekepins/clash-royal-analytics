@@ -20,7 +20,8 @@ import java.util.Map;
 
 public class TopCardAndDeck {
 	
-	private static final String CR_DATA_FILE = "C:\\temp\\cr_data_1535999786739\\cr_data_1535999786739.csv";
+	//private static final String CR_DATA_FILE = "C:\\temp\\cr_data_1535999786739\\cr_data_1535999786739.csv";
+	private static final String CR_DATA_FILE = "D:\\temp\\cr_data_1536416383148.csv";
 	
 	
 	private void doWork() {
@@ -66,10 +67,10 @@ public class TopCardAndDeck {
 			ds.select(colWinners).union(ds.select(colLoosers));
 		
 		ds.show(false);
-		
+		showTopDecks(ds);
 
-		 //showTopCards2(ds);
-		List<CardEnum> warCards =  Arrays.asList(
+		//showTopCards(ds);
+		/*List<CardEnum> warCards =  Arrays.asList(
 				//CardEnum.valkyrie, CardEnum.skeleton_army,
                 CardEnum.royal_giant,  CardEnum.skeleton_barrel, CardEnum.zap, CardEnum.goblin_gang, CardEnum.giant_snowball,
                 CardEnum.elite_barbarians, CardEnum.minion_horde, CardEnum.furnace, CardEnum.mega_minion, CardEnum.mini_pekka,
@@ -78,7 +79,7 @@ public class TopCardAndDeck {
                 CardEnum.goblin_barrel, CardEnum.poison, CardEnum.princess, CardEnum.mega_knight, CardEnum.electro_wizard, CardEnum.sparky
                 );
 		
-		getTopWarDayDeck(warCards, ds);
+		getTopWarDayDeck(warCards, ds);*/
 		
 		/*List<CardEnum> warCards =  Arrays.asList(
                 CardEnum.arrows,  CardEnum.ice_spirit, CardEnum.bats,  CardEnum.zap, CardEnum.minion_horde, CardEnum.spear_goblins,
@@ -154,15 +155,11 @@ public class TopCardAndDeck {
 		// Top cards
 		// Sum cards
 		List<Column> cols = new ArrayList<>();
-		int idx = 0;
 		for ( CardEnum card : CardEnum.values()) {
-			//cols[idx++] = sum(col(card.name())).as(card.name());
 			cols.add(sum(col(card.name())).as(card.name()));
 			cols.add(sum(when(col("isWinner").equalTo(lit(1)), col(card.name()) )).as(card.name() + "win"));
 			cols.add(sum(when(col("isWinner").equalTo(lit(0)), col(card.name()) )).as(card.name() + "lost"));
 			cols.add( sum(col(card.name())).as(card.name()).divide(lit(count)).as(card.name() + "pct") );
-			
-			
 		}
 		
 		ds = ds.select(cols.toArray(new Column[cols.size()]));
@@ -196,6 +193,16 @@ public class TopCardAndDeck {
 		}
 
 	}
+	
+	private void showTopDecks(Dataset<Row> ds) {
+		ds.groupBy(col("deckId")).agg(
+				count("*").as("count"),
+				first("human_deck"),
+				sum(col("isWinner")))
+		.orderBy(desc("count"))
+		.show(false);
+	}
+
 	
 
 	

@@ -9,7 +9,8 @@ import cr.model.Config;
 public class ConfigManager {
 	
 	// Mandatory
-	private final static String API_KEY = "api.key";
+	private final static String API_KEY1 = "api.key1";
+	private final static String API_KEY2 = "api.key2";
 	
 	// Option
 	private final static String USE_PROXY = "proxy";
@@ -32,10 +33,15 @@ public class ConfigManager {
 			prop.load(input);
 
 			// Read properties :
-			String apiKey = prop.getProperty(API_KEY);
-			config.setApiKey(apiKey);
+			String apiKey1 = prop.getProperty(API_KEY1);
+			config.setApiKey1(apiKey1);
 			
-			if ( ( apiKey == null ) || "".equals(apiKey) ) {
+			String apiKey2 = prop.getProperty(API_KEY2);
+			config.setApiKey2(apiKey2);
+			
+
+			
+			if ( ( apiKey1 == null ) || "".equals(apiKey1) ) {
 				throw new CrServiceException("no api key found in  conf/cr_api.conf");
 			}
 				

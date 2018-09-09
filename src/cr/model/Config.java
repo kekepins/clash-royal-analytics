@@ -1,9 +1,12 @@
 package cr.model;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Config {
 	private static Config config  = new Config();
 	
-	private String apiKey;
+	private String apiKey1;
+	private String apiKey2;
 	private boolean isProxy = false;
 	private String proxyHost;
 	private String proxyPort;
@@ -37,14 +40,37 @@ public class Config {
 		this.proxyPort = proxyPort;
 	}
 
+	public String getApiKey1() {
+		return apiKey1;
+	}
+
+	public void setApiKey1(String apiKey1) {
+		this.apiKey1 = apiKey1;
+	}
+
+	public String getApiKey2() {
+		return apiKey2;
+	}
+
+	public void setApiKey2(String apiKey2) {
+		this.apiKey2 = apiKey2;
+	}
+
 	public String getApiKey() {
-		return apiKey;
+		//return apiKey2;
+		int rand = ThreadLocalRandom.current().nextInt(0, 2);
+		
+		if ( rand == 0 ) {
+			return apiKey1;
+		}
+		
+		return apiKey2;
 	}
-
-	public void setApiKey(String apiKey) {
-		this.apiKey = apiKey;
-	}
-
-
+	
+	/*public static void main(String[] args) {
+		for (int i = 0; i < 10; i++ ) {
+			System.out.println("rand:" + ThreadLocalRandom.current().nextInt(0, 2));
+		}
+	}*/
 
 }

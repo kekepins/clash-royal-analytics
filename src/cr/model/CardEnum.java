@@ -59,7 +59,7 @@ public enum CardEnum {
 	skeleton_barrel(3, CardType.Troop, Rarity.Common),
 	flying_machine(4, CardType.Troop, Rarity.Rare),
 	royal_hogs(5, CardType.Troop, Rarity.Rare), // cochons royaux
-	//goblin_giant(6, CardType.Troop, Rarity.Epic ),
+	goblin_giant(6, CardType.Troop, Rarity.Epic ),
 	magic_archer(4, CardType.Troop, Rarity.Legendary),
 	cannon(3, CardType.Building, Rarity.Common),
 	goblin_hut(5, CardType.Building, Rarity.Rare),

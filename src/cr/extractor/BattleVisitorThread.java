@@ -30,9 +30,9 @@ import cr.service.QueryBuilder;
  */
 public class BattleVisitorThread {
 	
-	private final static String BASE_FILE = "c:\\temp\\cr_data_";
+	private final static String BASE_FILE = "d:\\temp\\cr_data_";
 	private static final int BATTLE_PLAYER_COUNT = 4; 
-	private static final int THREAD_COUNT = 4;
+	private static final int THREAD_COUNT = 8;
 	
 	private LinkedList<PlayerId> waitingPlayers = new LinkedList<>();
 	private Map<String, PlayerId> donePlayers = new HashMap<>(); 
@@ -57,8 +57,8 @@ public class BattleVisitorThread {
 		}
 		Player[] players = 
 				QueryBuilder
-					//.selectTopPlayers(null)
-					.selectTopPlayers(Country.FR)
+					.selectTopPlayers(null)
+					//.selectTopPlayers(Country.FR)
 					//.selectTopPlayers(Country._INT)
 					.execute();
 		
@@ -201,7 +201,7 @@ public class BattleVisitorThread {
 		
 		BattleVisitorThread battleVisitor = new BattleVisitorThread();
 		battleVisitor.init();
-		battleVisitor.startVisit(5 * 1000); /*x * 1mn*/
+		battleVisitor.startVisit(10 * 60 * 60 * 1000); /*x * 1mn*/
 		battleVisitor.end();
 	}
 
