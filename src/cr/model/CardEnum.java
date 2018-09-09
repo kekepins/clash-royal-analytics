@@ -8,7 +8,7 @@ public enum CardEnum {
 	pekka(7, CardType.Troop, Rarity.Epic),
 	minions(3, CardType.Troop, Rarity.Common),
 	balloon(5, CardType.Troop, Rarity.Epic),
-	witch(5, CardType.Troop, Rarity.Epic),
+	witch(5, CardType.Troop, Rarity.Epic),    //  sorciere
 	barbarians(5, CardType.Troop, Rarity.Common),
 	golem(8, CardType.Troop, Rarity.Epic),
 	skeletons(1, CardType.Troop, Rarity.Common),
@@ -18,11 +18,11 @@ public enum CardEnum {
 	musketeer(4, CardType.Troop, Rarity.Rare),
 	baby_dragon(4, CardType.Troop, Rarity.Epic),
 	prince(5, CardType.Troop, Rarity.Epic),
-	wizard(5, CardType.Troop, Rarity.Rare),
+	wizard(5, CardType.Troop, Rarity.Rare),  // sorcier
 	mini_pekka(4, CardType.Troop, Rarity.Rare),
 	spear_goblins(2, CardType.Troop, Rarity.Common),
 	giant_skeleton(6, CardType.Troop, Rarity.Epic),
-	hog_rider(4, CardType.Troop, Rarity.Rare),
+	hog_rider(4, CardType.Troop, Rarity.Rare), // chevaucheur de cochon
 	minion_horde(5, CardType.Troop, Rarity.Common),
 	ice_wizard(3, CardType.Troop, Rarity.Legendary),
 	royal_giant(6, CardType.Troop, Rarity.Common),
@@ -52,7 +52,7 @@ public enum CardEnum {
 	night_witch(4, CardType.Troop, Rarity.Legendary),
 	bats(2, CardType.Troop, Rarity.Common),
 	royal_ghost(3, CardType.Troop, Rarity.Legendary),
-	zappies(4, CardType.Troop, Rarity.Rare),
+	zappies(4, CardType.Troop, Rarity.Rare),  //electrocuteurs
 	rascals(5, CardType.Troop, Rarity.Rare),
 	cannon_cart(5, CardType.Troop, Rarity.Epic),
 	mega_knight(7, CardType.Troop, Rarity.Legendary),
@@ -69,7 +69,7 @@ public enum CardEnum {
 	barbarian_hut(7, CardType.Building, Rarity.Rare),
 	tesla(4, CardType.Building, Rarity.Common),
 	elixir_collector(6, CardType.Building, Rarity.Rare),
-	x_bow(6, CardType.Building, Rarity.Epic),
+	x_bow(6, CardType.Building, Rarity.Epic),  // arc-x
 	tombstone(3, CardType.Building, Rarity.Rare),
 	furnace(4, CardType.Building, Rarity.Rare), // fournaise
 	fireball(4, CardType.Spell, Rarity.Rare), 
@@ -79,7 +79,7 @@ public enum CardEnum {
 	goblin_barrel(3, CardType.Spell, Rarity.Epic), 
 	freeze(4, CardType.Spell, Rarity.Epic), 
 	mirror(1, CardType.Spell, Rarity.Epic), 
-	lightning(6, CardType.Spell, Rarity.Epic), 
+	lightning(6, CardType.Spell, Rarity.Epic),  // foudre
 	zap(2, CardType.Spell, Rarity.Common), 
 	poison(4, CardType.Spell, Rarity.Epic), 
 	graveyard(5, CardType.Spell, Rarity.Legendary), 

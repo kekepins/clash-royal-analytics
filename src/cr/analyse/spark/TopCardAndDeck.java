@@ -67,19 +67,30 @@ public class TopCardAndDeck {
 			ds.select(colWinners).union(ds.select(colLoosers));
 		
 		ds.show(false);
-		showTopDecks(ds);
+		//showTopDecks(ds);
 
 		//showTopCards(ds);
 		/*List<CardEnum> warCards =  Arrays.asList(
 				//CardEnum.valkyrie, CardEnum.skeleton_army,
-                CardEnum.royal_giant,  CardEnum.skeleton_barrel, CardEnum.zap, CardEnum.goblin_gang, CardEnum.giant_snowball,
-                CardEnum.elite_barbarians, CardEnum.minion_horde, CardEnum.furnace, CardEnum.mega_minion, CardEnum.mini_pekka,
-                CardEnum.inferno_tower,  CardEnum.elixir_collector, CardEnum.fireball,  CardEnum.three_musketeers, CardEnum.cannon_cart, CardEnum.pekka, CardEnum.clone, CardEnum.witch,
-                CardEnum.freeze, 
-                CardEnum.goblin_barrel, CardEnum.poison, CardEnum.princess, CardEnum.mega_knight, CardEnum.electro_wizard, CardEnum.sparky
+                CardEnum.skeleton_army,  CardEnum.skeletons, CardEnum.mini_pekka, CardEnum.fire_spirits, CardEnum.bomber,
+                CardEnum.skeleton_barrel, CardEnum.minion_horde, CardEnum.royal_giant, CardEnum.tesla, CardEnum.inferno_dragon,
+                CardEnum.witch,  CardEnum.giant, CardEnum.zap,  CardEnum.poison, CardEnum.heal, CardEnum.musketeer, CardEnum.zappies, CardEnum.wizard,
+                CardEnum.rocket, 
+                CardEnum.goblin_barrel, CardEnum.freeze, CardEnum.x_bow, CardEnum.lightning, CardEnum.bandit, CardEnum.sparky, CardEnum.mega_knight
+                );*/
+		
+		List<CardEnum> warCards =  Arrays.asList(
+				//CardEnum.valkyrie, CardEnum.skeleton_army,
+				CardEnum.witch, CardEnum.tombstone, CardEnum.mini_pekka, CardEnum.valkyrie, 
+                CardEnum.giant,  CardEnum.poison, CardEnum.minions, CardEnum.archers,
+                CardEnum.ice_spirit, CardEnum.goblin_gang, CardEnum.cannon, CardEnum.arrows, CardEnum.barbarians,
+                CardEnum.minion_horde,  CardEnum.royal_giant, CardEnum.dart_goblin/*,  CardEnum.hog_rider*/, CardEnum.battle_ram, 
+                CardEnum.flying_machine, CardEnum.barbarian_hut, CardEnum.rage,
+                CardEnum.dark_prince,  CardEnum.freeze, CardEnum.cannon_cart, CardEnum.giant_skeleton, CardEnum.golem,
+                CardEnum.miner, CardEnum.bandit, CardEnum.royal_ghost, CardEnum.lumberjack, CardEnum.mega_knight
                 );
 		
-		getTopWarDayDeck(warCards, ds);*/
+		getTopWarDayDeck(warCards, ds);
 		
 		/*List<CardEnum> warCards =  Arrays.asList(
                 CardEnum.arrows,  CardEnum.ice_spirit, CardEnum.bats,  CardEnum.zap, CardEnum.minion_horde, CardEnum.spear_goblins,
