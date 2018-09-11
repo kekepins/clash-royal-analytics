@@ -20,8 +20,8 @@ import java.util.Map;
 
 public class TopCardAndDeck {
 	
-	//private static final String CR_DATA_FILE = "C:\\temp\\cr_data_1535999786739\\cr_data_1535999786739.csv";
-	private static final String CR_DATA_FILE = "D:\\temp\\cr_data_1536416383148.csv";
+	private static final String CR_DATA_FILE = "C:\\temp\\cr_data_1536416383148\\cr_data_1536416383148.csv";
+	//private static final String CR_DATA_FILE = "D:\\temp\\cr_data_1536416383148.csv";
 	
 	
 	private void doWork() {
@@ -79,15 +79,24 @@ public class TopCardAndDeck {
                 CardEnum.goblin_barrel, CardEnum.freeze, CardEnum.x_bow, CardEnum.lightning, CardEnum.bandit, CardEnum.sparky, CardEnum.mega_knight
                 );*/
 		
-		List<CardEnum> warCards =  Arrays.asList(
+		/*List<CardEnum> warCards =  Arrays.asList(
 				//CardEnum.valkyrie, CardEnum.skeleton_army,
 				CardEnum.witch, CardEnum.tombstone, CardEnum.mini_pekka, CardEnum.valkyrie, 
                 CardEnum.giant,  CardEnum.poison, CardEnum.minions, CardEnum.archers,
                 CardEnum.ice_spirit, CardEnum.goblin_gang, CardEnum.cannon, CardEnum.arrows, CardEnum.barbarians,
-                CardEnum.minion_horde,  CardEnum.royal_giant, CardEnum.dart_goblin/*,  CardEnum.hog_rider*/, CardEnum.battle_ram, 
+                CardEnum.minion_horde,  CardEnum.royal_giant, CardEnum.dart_goblin, CardEnum.battle_ram, 
                 CardEnum.flying_machine, CardEnum.barbarian_hut, CardEnum.rage,
                 CardEnum.dark_prince,  CardEnum.freeze, CardEnum.cannon_cart, CardEnum.giant_skeleton, CardEnum.golem,
                 CardEnum.miner, CardEnum.bandit, CardEnum.royal_ghost, CardEnum.lumberjack, CardEnum.mega_knight
+                );*/
+		
+		List<CardEnum> warCards =  Arrays.asList(
+				CardEnum.bomber, CardEnum.arrows, CardEnum.minions, CardEnum.cannon, 
+                CardEnum.knight,  CardEnum.spear_goblins, CardEnum.goblins, CardEnum.tombstone, CardEnum.furnace,
+                CardEnum.barbarian_hut, CardEnum.hog_rider, CardEnum.inferno_tower, CardEnum.heal, CardEnum.goblin_barrel,
+                CardEnum.cannon_cart,  CardEnum.golem, CardEnum.prince, CardEnum.skeleton_army, 
+                CardEnum.poison, CardEnum.inferno_dragon, CardEnum.lumberjack,
+                CardEnum.magic_archer,  CardEnum.princess
                 );
 		
 		getTopWarDayDeck(warCards, ds);
