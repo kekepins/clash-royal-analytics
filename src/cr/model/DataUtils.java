@@ -49,18 +49,26 @@ public class DataUtils {
 		frCards.put(CardEnum.sparky, "sparky");
 		frCards.put(CardEnum.bowler, "bouliste");
 		frCards.put(CardEnum.lumberjack, "bucheron");
+		
+		frCards.put(CardEnum.battle_ram, "Belier de combat");
+		frCards.put(CardEnum.inferno_dragon, "dragon de l'enfer");
+		frCards.put(CardEnum.ice_golem, "golem de glace");
+		frCards.put(CardEnum.mega_minion, "mega gargouilel");
+		frCards.put(CardEnum.dart_goblin, "gobelin sarbacane");
+		frCards.put(CardEnum.goblin_gang, "gang de gobelins");
+
+		frCards.put(CardEnum.electro_wizard, "electro sorcier");
+		frCards.put(CardEnum.elite_barbarians, "barbares elite");
+		frCards.put(CardEnum.hunter, "chasseur");
+		frCards.put(CardEnum.executioner, "bourreau");
+		frCards.put(CardEnum.dart_goblin, "gobelin sarbacane");
+		frCards.put(CardEnum.goblin_gang, "gang de gobelins");
 
 	}
 	
 	
 	/*
 
-	battle_ram(4, CardType.Troop, Rarity.Rare),  //Belier de combat
-	inferno_dragon(6, CardType.Troop, Rarity.Legendary),
-	ice_golem(2, CardType.Troop, Rarity.Rare),
-	mega_minion(3, CardType.Troop, Rarity.Rare),
-	dart_goblin(3, CardType.Troop, Rarity.Rare),
-	goblin_gang(3, CardType.Troop, Rarity.Common),
 	electro_wizard(4, CardType.Troop, Rarity.Legendary),
 	elite_barbarians(6, CardType.Troop, Rarity.Common),
 	hunter(4, CardType.Troop, Rarity.Epic),

@@ -45,8 +45,8 @@ public enum CardEnum {
 	goblin_gang(3, CardType.Troop, Rarity.Common),
 	electro_wizard(4, CardType.Troop, Rarity.Legendary),
 	elite_barbarians(6, CardType.Troop, Rarity.Common),
-	hunter(4, CardType.Troop, Rarity.Epic),
-	executioner(5, CardType.Troop, Rarity.Epic),
+	hunter(4, CardType.Troop, Rarity.Epic),       // chasseur
+	executioner(5, CardType.Troop, Rarity.Epic),  // bourreau
 	bandit(3, CardType.Troop, Rarity.Legendary),  // voleuse
 	royal_recruits(8, CardType.Troop, Rarity.Common), 
 	night_witch(4, CardType.Troop, Rarity.Legendary),

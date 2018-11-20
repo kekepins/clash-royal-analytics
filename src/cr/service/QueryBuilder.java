@@ -7,6 +7,7 @@ import cr.model.Clan;
 import cr.model.Country;
 import cr.model.Player;
 import cr.model.Tracking;
+import cr.model.WarLog;
 
 public class QueryBuilder {
 	
@@ -18,6 +19,8 @@ public class QueryBuilder {
 	private final static String TRACK_URI = "/track";
 	private final static String TOP_PLAYERS_URI = "top/players/";
 	private final static String TOP_CLANS_URI = "top/clans/";
+	//private final static String WAR_URI = "/war/";
+	private final static String WARLOG_URI = "/warlog/";
 	
 	private final static String VERSION_URI = "version/";
 	
@@ -83,6 +86,13 @@ public class QueryBuilder {
 		Query<String> query = new Query<String>( API_BASE +  VERSION_URI, String.class);
 		query = query.withResponseNotJson();
 		return query;
+	}
+	
+	public static Query<WarLog[]> selectWarLog(String clanId) {
+		Query<WarLog[]> query = new Query<WarLog[]>(API_BASE +  CLAN_URI + "%s"  + WARLOG_URI , WarLog[].class);
+		query = query.withParam(clanId);
+		return query;
+		
 	}
 	
 

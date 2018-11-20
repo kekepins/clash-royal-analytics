@@ -11,6 +11,7 @@ public class Member {
 	private int donations;
 	private int donationsReceived;
 	private int donationsDelta;
+	private int clanChestCrowns;
 	
 	public String getName() {
 		return name;
@@ -98,6 +99,14 @@ public class Member {
 
 	public void setArena(Arena arena) {
 		this.arena = arena;
+	}
+
+	public int getClanChestCrowns() {
+		return clanChestCrowns;
+	}
+
+	public void setClanChestCrowns(int clanChestCrowns) {
+		this.clanChestCrowns = clanChestCrowns;
 	}
 
 	private Arena arena;

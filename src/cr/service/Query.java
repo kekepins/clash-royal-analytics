@@ -120,6 +120,7 @@ public class Query <T> {
 		QueryResponse response = executeGetQuery(url);
 		try { 
 			if ( isJsonResponse ) {
+				System.out.println(response.getJson());
 				return  objectMapper.readValue(response.getJson(), type);
 			}
 			return (T) response.getJson();
